@@ -1,6 +1,6 @@
 package com.americanfirstfinance.account.controller;
 
-import com.americanfirstfinance.account.domain.Account;
+import com.americanfirstfinance.account.dao.persistence.Account;
 import com.americanfirstfinance.account.handler.AccountDetailsHandler;
 
 import javax.inject.Inject;

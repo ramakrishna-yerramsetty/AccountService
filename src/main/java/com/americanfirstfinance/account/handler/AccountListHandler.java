@@ -1,8 +1,6 @@
 package com.americanfirstfinance.account.handler;
 
-import com.americanfirstfinance.account.dao.AccountDAO;
-import com.americanfirstfinance.account.domain.Account;
-import com.americanfirstfinance.account.domain.AccountSummary;
+import com.americanfirstfinance.account.view.AccountSummary;
 import com.americanfirstfinance.account.service.AccountService;
 
 import javax.enterprise.context.ApplicationScoped;

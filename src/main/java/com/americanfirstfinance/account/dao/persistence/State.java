@@ -1,4 +1,4 @@
-package com.americanfirstfinance.account.domain;
+package com.americanfirstfinance.account.dao.persistence;
 
 public enum State {
     ALABAMA("Alabama", "AL"),

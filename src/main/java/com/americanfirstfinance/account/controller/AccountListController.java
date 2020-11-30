@@ -1,7 +1,6 @@
 package com.americanfirstfinance.account.controller;
 
-import com.americanfirstfinance.account.domain.Account;
-import com.americanfirstfinance.account.domain.AccountSummary;
+import com.americanfirstfinance.account.view.AccountSummary;
 import com.americanfirstfinance.account.handler.AccountListHandler;
 
 import javax.inject.Inject;
@@ -10,7 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.Collections;
+
 import java.util.List;
 
 @Path("/poc/accounts")

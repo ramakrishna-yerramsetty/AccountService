@@ -1,12 +1,17 @@
-package com.americanfirstfinance.account.domain;
+package com.americanfirstfinance.account.dao.persistence;
+
+import javax.persistence.Embeddable;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @EqualsAndHashCode
+@Embeddable
 public class Address {
     private String street1;
     private String street2;

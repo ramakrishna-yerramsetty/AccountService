@@ -1,4 +1,4 @@
-package com.americanfirstfinance.account.domain;
+package com.americanfirstfinance.account.view;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

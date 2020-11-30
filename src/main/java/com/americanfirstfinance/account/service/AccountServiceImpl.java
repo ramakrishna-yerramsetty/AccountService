@@ -1,20 +1,21 @@
 package com.americanfirstfinance.account.service;
 
 import com.americanfirstfinance.account.dao.AccountDAO;
-import com.americanfirstfinance.account.domain.Account;
-import com.americanfirstfinance.account.domain.AccountSummary;
-import com.americanfirstfinance.account.domain.Customer;
-import com.americanfirstfinance.account.domain.Transaction;
+import com.americanfirstfinance.account.dao.persistence.Account;
+import com.americanfirstfinance.account.form.CustomerPayment;
+import com.americanfirstfinance.account.view.AccountSummary;
+import com.americanfirstfinance.account.dao.persistence.Customer;
+import com.americanfirstfinance.account.dao.persistence.Transaction;
+import com.americanfirstfinance.account.view.Receipt;
+
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
-import org.joda.money.format.MoneyPrinter;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.time.ZonedDateTime;
-import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -49,8 +50,8 @@ public class AccountServiceImpl implements AccountService {
             account.getDealer().getName(),
             primaryAccountHolders,
             coSigners,
-            account.getBalance(),
-            lastPayment == null ? Money.of(CurrencyUnit.USD, BigDecimal.ZERO) : lastPayment.getAmount(),
+            Money.of(CurrencyUnit.of(account.getCurrencyCode()), account.getBalance()),
+            lastPayment == null ? Money.of(CurrencyUnit.USD, BigDecimal.ZERO) : Money.of(CurrencyUnit.USD, lastPayment.getAmount()),
             lastPayment == null ? null : lastPayment.getDatePosted()
         );
     }
@@ -62,5 +63,17 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account getAccount(String accountNumber) {
         return accountDAO.getAccount(accountNumber);
+    }
+
+    @Override
+    public Receipt postDownPayment(CustomerPayment payment) {
+        Transaction paymentTransaction = accountDAO.postCustomerPayment(payment);
+        return generatePaymentReceipt(paymentTransaction);
+    }
+
+    private Receipt generatePaymentReceipt(Transaction paymentTransaction) {
+        Money paymentAmount = Money.of(CurrencyUnit.of(paymentTransaction.getCurrencyCode()), paymentTransaction.getAmount());
+        Receipt receipt = new Receipt(paymentTransaction.getConfirmationNumber(), paymentTransaction.getAccount().getAccountNumber(), paymentAmount.toString());
+        return receipt;
     }
 }
