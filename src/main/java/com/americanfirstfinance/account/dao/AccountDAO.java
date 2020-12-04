@@ -9,5 +9,5 @@ import java.util.List;
 public interface AccountDAO {
     List<Account> getAccountListForDealer(String dealerId, int fromIndex, int maxItems);
     Account getAccount(String accountNumber);
-    Transaction postCustomerPayment(CustomerPayment payment);
+    //Transaction postCustomerPayment(CustomerPayment payment);
 }

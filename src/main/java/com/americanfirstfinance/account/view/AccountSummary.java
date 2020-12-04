@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.joda.money.Money;
 
+import javax.persistence.Column;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -14,10 +15,9 @@ import java.util.List;
 @EqualsAndHashCode
 public class AccountSummary {
     private String accountNumber;
-    private String dealerName;
-    private List<String> primaryAccountHolders;
-    private List<String> coSigners;
-    private Money accountBalance;
-    private Money lastPaymentAmount;
-    private ZonedDateTime lastPaymentDate;
+    private String dealerId;
+    private String firstName;
+    private String lastName;
+    private String accountBalance;
+    private String accountLine;
 }

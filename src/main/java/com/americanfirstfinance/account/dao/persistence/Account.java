@@ -1,22 +1,11 @@
 package com.americanfirstfinance.account.dao.persistence;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.util.List;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Transient;
+import javax.persistence.Table;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,32 +13,27 @@ import javax.persistence.Transient;
 @Setter
 @EqualsAndHashCode
 @Entity
+@Table(name = "KWLBASE")
 public class Account {
 
     @Id
-    @SequenceGenerator(name = "accountSeq", sequenceName = "account_number_seq", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(generator = "accountSeq")
-    private String accountNumber;
-    //I need to represent account status somehow -- funded, open, current, past due, collection, and closed -- what else?  And should it be derived?
-    //If it's derived, I need to figure out how and/or what part of it is derived..  like I could store Open on the DB, and derive current / past due for display.
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Dealer dealer;
-    private int paymentDueDayOfMonth;
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Customer> primaryAccountHolders;
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Customer> cosigners;  //Join table, in this case, should have a flag indicating primary account holder or cosigner
-    private double interestRate;
-    private String currencyCode;
+    @Column(name="MFMTACCT")
+    private String accountNumber;  //KWLBASE.MCUST + KWLBASE.MACCT, formatted is KWLBASE.MFMTACCT
+    @Column(name="MDLR")
+    private String dealerId;  //I think dealer ID is MDLR -- which table has dealer info?
+    @Column(name="MDLRL")
+    private String dealearLocation;
+    @Column(name="MFNAME")
+    private String firstName;
+    @Column(name="MLNAME")
+    private String lastName;
+    @Column(name="MDUEDAY")
+    private int paymentDueDayOfMonth = 0;
+    //Customer info should be embeddable object
+    @Column(name="MCBAL")
     private double balance;
-    private double originalPrincipal;
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Transaction> transactionHistory;
-
-    @Transient
-    public Transaction getLastPayment() {
-        Transaction transaction = transactionHistory.stream().filter(txn -> TransactionType.PAYMENT == txn.getTransactionType()).reduce((first, second) -> second).orElse(null);
-
-        return transaction;
-    }
+    @Column(name="MPROCD")
+    private double line;
+    //MTYPE -- these two columns define what kind of loan this is
+    //MPROD
 }

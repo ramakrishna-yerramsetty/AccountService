@@ -22,20 +22,15 @@ import javax.persistence.SequenceGenerator;
 @Getter
 @Builder
 @EqualsAndHashCode
-@Entity
 public class Transaction {
 
-    @Id
-    @SequenceGenerator(name = "transactionSeq", sequenceName = "transaction_id_seq", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(generator = "transactionSeq")
     private int transactionId;
 
 
     private String confirmationNumber;
     private TransactionType transactionType;
     private String description;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Account account;
+    //private Account account;
     private String currencyCode;
     private double amount;
     private ZonedDateTime datePosted;

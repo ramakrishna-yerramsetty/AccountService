@@ -14,12 +14,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 @EqualsAndHashCode
-@Entity
 public class Dealer {
 
-    @Id
-    @SequenceGenerator(name = "dealerSeq", sequenceName = "dealer_id_seq", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(generator = "dealerSeq")
     private int dealerId;
     private String name;
 }

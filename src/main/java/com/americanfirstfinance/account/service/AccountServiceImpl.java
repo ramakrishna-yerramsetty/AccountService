@@ -14,6 +14,7 @@ import org.joda.money.Money;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -40,32 +41,32 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private AccountSummary transformAccountToSummaryView(Account account) {
-        List<String> primaryAccountHolders = summarizeCustomerList(account.getPrimaryAccountHolders());
+        /*List<String> primaryAccountHolders = summarizeCustomerList(account.getPrimaryAccountHolders());
         List<String> coSigners = summarizeCustomerList(account.getCosigners());
-        Transaction lastPayment = account.getLastPayment();
+        Transaction lastPayment = account.getLastPayment();*/
 
         //This could be a builder instead of a constructor, but I want to make sure everything is set...
+        //Return new AccountSummary(
         return new AccountSummary(
-            account.getAccountNumber(),
-            account.getDealer().getName(),
-            primaryAccountHolders,
-            coSigners,
-            Money.of(CurrencyUnit.of(account.getCurrencyCode()), account.getBalance()),
-            lastPayment == null ? Money.of(CurrencyUnit.USD, BigDecimal.ZERO) : Money.of(CurrencyUnit.USD, lastPayment.getAmount()),
-            lastPayment == null ? null : lastPayment.getDatePosted()
+            account.getAccountNumber().trim(),
+            account.getDealerId().trim(),
+                account.getFirstName().trim(),
+                account.getLastName().trim(),
+                NumberFormat.getCurrencyInstance().format(account.getBalance()),
+                NumberFormat.getCurrencyInstance().format(account.getLine())
         );
     }
 
-    private List<String> summarizeCustomerList(List<Customer> customerList) {
+    /*private List<String> summarizeCustomerList(List<Customer> customerList) {
        return customerList.stream().map(customer -> customer.getLastName() + ", " + customer.getFirstName().charAt(0)).collect(Collectors.toList());
-    }
+    }*/
 
     @Override
     public Account getAccount(String accountNumber) {
         return accountDAO.getAccount(accountNumber);
     }
 
-    @Override
+    /*@Override
     public Receipt postDownPayment(CustomerPayment payment) {
         Transaction paymentTransaction = accountDAO.postCustomerPayment(payment);
         return generatePaymentReceipt(paymentTransaction);
@@ -75,5 +76,5 @@ public class AccountServiceImpl implements AccountService {
         Money paymentAmount = Money.of(CurrencyUnit.of(paymentTransaction.getCurrencyCode()), paymentTransaction.getAmount());
         Receipt receipt = new Receipt(paymentTransaction.getConfirmationNumber(), paymentTransaction.getAccount().getAccountNumber(), paymentAmount.toString());
         return receipt;
-    }
+    }*/
 }

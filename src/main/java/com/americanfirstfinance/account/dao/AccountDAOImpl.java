@@ -30,7 +30,7 @@ public class AccountDAOImpl implements AccountDAO {
 
     @Override
     public List<Account> getAccountListForDealer(String dealerId, int fromIndex, int maxItems) {
-        Query query = entityManager.createQuery("select acct from Account acct where acct.dealer.dealerId = :dealerId").setParameter("dealerId", Integer.parseInt(dealerId));
+        Query query = entityManager.createQuery("select acct from Account acct where acct.dealerId = :dealerId").setParameter("dealerId", dealerId);
         List<Account> accounts = query.getResultList();
         return accounts;
     }
@@ -53,7 +53,7 @@ public class AccountDAOImpl implements AccountDAO {
         return account;
     }
 
-    @Override
+    /*@Override
     public Transaction postCustomerPayment(CustomerPayment payment) {
         Account account = getAccount(payment.getAccountNumber());
 
@@ -80,5 +80,5 @@ public class AccountDAOImpl implements AccountDAO {
     public void persistTransaction(Account account, Transaction transaction) {
         entityManager.merge(account);
         entityManager.merge(transaction);
-    }
+    }*/
 }

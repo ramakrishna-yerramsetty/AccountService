@@ -8,9 +8,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CustomerPayment {
-    private String accountNumber;
-    private String currencyCode;
-    private double amount;
-    private String cardType;
-    private String cardNumber;
+    private String accountNumber = "";
+    private String currencyCode = "";
+    private double amount = 0.0;
+    private String cardType = "";
+    private String cardNumber = "";
 }
