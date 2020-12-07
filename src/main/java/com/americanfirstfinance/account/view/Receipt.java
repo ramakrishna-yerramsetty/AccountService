@@ -7,8 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class Receipt {
-    private String confirmationNumber;
+    /*private String confirmationNumber;
     private String accountNumber;
-    private String amount;
-
+    private String amount;*/
+    private String decision;
 }

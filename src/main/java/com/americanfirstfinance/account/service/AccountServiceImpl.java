@@ -2,7 +2,10 @@ package com.americanfirstfinance.account.service;
 
 import com.americanfirstfinance.account.dao.AccountDAO;
 import com.americanfirstfinance.account.dao.persistence.Account;
+import com.americanfirstfinance.account.dao.persistence.Transaction;
+import com.americanfirstfinance.account.form.DownPayment;
 import com.americanfirstfinance.account.view.AccountSummaryView;
+import com.americanfirstfinance.account.view.Receipt;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -47,5 +50,16 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account getAccount(String customerNumber, String accountId) {
         return accountDAO.getAccount(customerNumber, accountId);
+    }
+
+    @Override
+    public Receipt postDownPayment(DownPayment payment) {
+        Transaction paymentTransaction = accountDAO.postCustomerPayment(payment);
+        return generatePaymentReceipt(paymentTransaction);
+    }
+
+    private Receipt generatePaymentReceipt(Transaction paymentTransaction) {
+        Receipt receipt = new Receipt(paymentTransaction.getDecision());
+        return receipt;
     }
 }

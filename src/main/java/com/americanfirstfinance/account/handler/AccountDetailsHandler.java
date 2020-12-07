@@ -26,7 +26,10 @@ public class AccountDetailsHandler {
     }
 
     private AccountDetailsView buildAccountDetailsView(Account account) {
-        LOGGER.info("buildAccountDetailsView() -- account: {}", account.getFormattedAccountNumber());
+        if (account == null) {
+            return null;
+        }
+
         return AccountDetailsView.builder()
                 .accountNumber(account.getFormattedAccountNumber().trim())
                 .customerNumber(Integer.toString(account.getAccountNumber().getCustomerNumber()))

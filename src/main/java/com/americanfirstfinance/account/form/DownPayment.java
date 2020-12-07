@@ -7,10 +7,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CustomerPayment {
-    private String accountNumber = "";
-    private String currencyCode = "";
-    private double amount = 0.0;
-    private String cardType = "";
+public class DownPayment {
+    private String customerNumber = "";
+    private String accountId = "";
     private String cardNumber = "";
+    private double amount = 0.0;
 }

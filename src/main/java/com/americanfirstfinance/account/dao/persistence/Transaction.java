@@ -23,18 +23,6 @@ import javax.persistence.SequenceGenerator;
 @Builder
 @EqualsAndHashCode
 public class Transaction {
-
-    private int transactionId;
-
-
-    private String confirmationNumber;
-    private TransactionType transactionType;
-    private String description;
-    //private Account account;
-    private String currencyCode;
+    private String decision;
     private double amount;
-    private ZonedDateTime datePosted;
-    private String notes;
-    //TODO: -- Form of payment class to indicate how someone paid, but then that's only applicable to Payments -- now I want the Swift/Rust form of enums!
-
 }

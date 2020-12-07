@@ -7,7 +7,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.americanfirstfinance.account.form.CustomerPayment;
+import com.americanfirstfinance.account.form.DownPayment;
 import com.americanfirstfinance.account.handler.DownPaymentHandler;
 import com.americanfirstfinance.account.view.Receipt;
 
@@ -25,7 +25,7 @@ public class PostDownPaymentController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Receipt postDownPayment(CustomerPayment payment) {
+    public Receipt postDownPayment(DownPayment payment) {
         return downPaymentHandler.handleDownPayment(payment);
     }
 

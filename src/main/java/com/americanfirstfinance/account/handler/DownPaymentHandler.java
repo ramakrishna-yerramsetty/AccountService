@@ -3,7 +3,7 @@ package com.americanfirstfinance.account.handler;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import com.americanfirstfinance.account.form.CustomerPayment;
+import com.americanfirstfinance.account.form.DownPayment;
 import com.americanfirstfinance.account.service.AccountService;
 import com.americanfirstfinance.account.view.Receipt;
 
@@ -19,9 +19,9 @@ public class DownPaymentHandler {
         this.accountService = accountService;
     }
 
-    public Receipt handleDownPayment(CustomerPayment payment) {
-        return new Receipt(UUID.randomUUID().toString(), "1-234567-1", "$100.00");
-        //return accountService.postDownPayment(payment);
+    public Receipt handleDownPayment(DownPayment payment) {
+        //return new Receipt(UUID.randomUUID().toString(), "1-234567-1", "$100.00");
+        return accountService.postDownPayment(payment);
     }
 
 }
