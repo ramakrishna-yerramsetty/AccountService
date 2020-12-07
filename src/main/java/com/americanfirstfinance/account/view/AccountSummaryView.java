@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @EqualsAndHashCode
-public class AccountSummary {
+public class AccountSummaryView {
     private String accountNumber;
     private String dealerId;
     private String firstName;

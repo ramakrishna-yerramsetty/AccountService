@@ -1,6 +1,6 @@
 package com.americanfirstfinance.account.controller;
 
-import com.americanfirstfinance.account.view.AccountSummary;
+import com.americanfirstfinance.account.view.AccountSummaryView;
 import com.americanfirstfinance.account.handler.AccountListHandler;
 
 import javax.inject.Inject;
@@ -23,22 +23,16 @@ public class AccountListController {
     }
 
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String getAccountNumberFromURL() {
-        return "1";
-    }
-
-    @GET
     @Path("/{dealerId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<AccountSummary> getAccounts(@PathParam("dealerId") String dealerId) {
+    public List<AccountSummaryView> getAccounts(@PathParam("dealerId") String dealerId) {
         return accountListHandler.handleAccountListRequest(dealerId, 0);
     }
 
     @GET
     @Path("/{dealerId}/{page}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<AccountSummary> getAccountsPaginated(@PathParam("dealerId") String dealerId, @PathParam("page") int page) {
+    public List<AccountSummaryView> getAccountsPaginated(@PathParam("dealerId") String dealerId, @PathParam("page") int page) {
         return accountListHandler.handleAccountListRequest(dealerId, page);
     }
 }

@@ -2,21 +2,12 @@ package com.americanfirstfinance.account.service;
 
 import com.americanfirstfinance.account.dao.AccountDAO;
 import com.americanfirstfinance.account.dao.persistence.Account;
-import com.americanfirstfinance.account.form.CustomerPayment;
-import com.americanfirstfinance.account.view.AccountSummary;
-import com.americanfirstfinance.account.dao.persistence.Customer;
-import com.americanfirstfinance.account.dao.persistence.Transaction;
-import com.americanfirstfinance.account.view.Receipt;
-
-import org.joda.money.CurrencyUnit;
-import org.joda.money.Money;
+import com.americanfirstfinance.account.view.AccountSummaryView;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -34,21 +25,17 @@ public class AccountServiceImpl implements AccountService {
 
     //Handles the Account List endpoint
     @Override
-    public List<AccountSummary> getAccountsForDealer(String dealerId, int page) {
+    public List<AccountSummaryView> getAccountsForDealer(String dealerId, int page) {
         List<Account> accountList = accountDAO.getAccountListForDealer(dealerId, page * MAX_RESULTS_PER_PAGE, MAX_RESULTS_PER_PAGE);
 
         return accountList.stream().map(this::transformAccountToSummaryView).collect(Collectors.toList());
     }
 
-    private AccountSummary transformAccountToSummaryView(Account account) {
-        /*List<String> primaryAccountHolders = summarizeCustomerList(account.getPrimaryAccountHolders());
-        List<String> coSigners = summarizeCustomerList(account.getCosigners());
-        Transaction lastPayment = account.getLastPayment();*/
-
+    private AccountSummaryView transformAccountToSummaryView(Account account) {
         //This could be a builder instead of a constructor, but I want to make sure everything is set...
         //Return new AccountSummary(
-        return new AccountSummary(
-            account.getAccountNumber().trim(),
+        return new AccountSummaryView(
+            account.getFormattedAccountNumber(),
             account.getDealerId().trim(),
                 account.getFirstName().trim(),
                 account.getLastName().trim(),
@@ -57,24 +44,8 @@ public class AccountServiceImpl implements AccountService {
         );
     }
 
-    /*private List<String> summarizeCustomerList(List<Customer> customerList) {
-       return customerList.stream().map(customer -> customer.getLastName() + ", " + customer.getFirstName().charAt(0)).collect(Collectors.toList());
-    }*/
-
     @Override
-    public Account getAccount(String accountNumber) {
-        return accountDAO.getAccount(accountNumber);
+    public Account getAccount(String customerNumber, String accountId) {
+        return accountDAO.getAccount(customerNumber, accountId);
     }
-
-    /*@Override
-    public Receipt postDownPayment(CustomerPayment payment) {
-        Transaction paymentTransaction = accountDAO.postCustomerPayment(payment);
-        return generatePaymentReceipt(paymentTransaction);
-    }
-
-    private Receipt generatePaymentReceipt(Transaction paymentTransaction) {
-        Money paymentAmount = Money.of(CurrencyUnit.of(paymentTransaction.getCurrencyCode()), paymentTransaction.getAmount());
-        Receipt receipt = new Receipt(paymentTransaction.getConfirmationNumber(), paymentTransaction.getAccount().getAccountNumber(), paymentAmount.toString());
-        return receipt;
-    }*/
 }

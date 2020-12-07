@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface AccountDAO {
     List<Account> getAccountListForDealer(String dealerId, int fromIndex, int maxItems);
-    Account getAccount(String accountNumber);
+    Account getAccount(String customerNumber, String accountId);
     //Transaction postCustomerPayment(CustomerPayment payment);
 }

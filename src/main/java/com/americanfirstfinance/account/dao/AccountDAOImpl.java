@@ -1,12 +1,15 @@
 package com.americanfirstfinance.account.dao;
 
 import com.americanfirstfinance.account.dao.persistence.Account;
+import com.americanfirstfinance.account.dao.persistence.AccountNumber;
 import com.americanfirstfinance.account.dao.persistence.Transaction;
 import com.americanfirstfinance.account.dao.persistence.TransactionType;
 import com.americanfirstfinance.account.form.CustomerPayment;
 
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -21,6 +24,7 @@ import java.util.UUID;
 
 @ApplicationScoped
 public class AccountDAOImpl implements AccountDAO {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccountDAOImpl.class);
     private final EntityManager entityManager;
 
     @Inject
@@ -36,20 +40,13 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public Account getAccount(String accountNumber) {
-        /*return new Account(
-                accountNumber,
-                null,
-                15,
-                Collections.EMPTY_LIST,
-                Collections.EMPTY_LIST,
-                0.08,
-                CurrencyUnit.USD.getCode(),
-                100.0,
-                1000.0,
-                Collections.EMPTY_LIST
-        );*/
-        Account account = entityManager.find(Account.class, accountNumber);
+    public Account getAccount(String customerNumber, String accountId) {
+        LOGGER.info("AccountDAOImpl.getAccount() -- customerNumber: {} accountId: {}", customerNumber, accountId);
+        Account account = entityManager.find(Account.class, new AccountNumber(Integer.parseInt(customerNumber), Integer.parseInt(accountId)));
+        LOGGER.info("Got an account back? {}", account == null ? "No" : "Yes");
+        if (account != null) {
+            LOGGER.info("Account with account number: {}", account.getFormattedAccountNumber());
+        }
         return account;
     }
 

@@ -2,10 +2,8 @@ package com.americanfirstfinance.account.dao.persistence;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Objects;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,10 +13,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "KWLBASE")
 public class Account {
-
-    @Id
+    @EmbeddedId
+    private AccountNumber accountNumber;
     @Column(name="MFMTACCT")
-    private String accountNumber;  //KWLBASE.MCUST + KWLBASE.MACCT, formatted is KWLBASE.MFMTACCT
+    private String formattedAccountNumber;  //KWLBASE.MCUST + KWLBASE.MACCT, formatted is KWLBASE.MFMTACCT
     @Column(name="MDLR")
     private String dealerId;  //I think dealer ID is MDLR -- which table has dealer info?
     @Column(name="MDLRL")
@@ -34,6 +32,31 @@ public class Account {
     private double balance;
     @Column(name="MPROCD")
     private double line;
-    //MTYPE -- these two columns define what kind of loan this is
-    //MPROD
+    @Column(name="MTYPE")
+    private String type;
+    @Column(name="MPROD")
+    private String product;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Account)) return false;
+        Account account = (Account) o;
+        return paymentDueDayOfMonth == account.paymentDueDayOfMonth &&
+                Double.compare(account.balance, balance) == 0 &&
+                Double.compare(account.line, line) == 0 &&
+                Objects.equals(accountNumber, account.accountNumber) &&
+                Objects.equals(formattedAccountNumber, account.formattedAccountNumber) &&
+                Objects.equals(dealerId, account.dealerId) &&
+                Objects.equals(dealearLocation, account.dealearLocation) &&
+                Objects.equals(firstName, account.firstName) &&
+                Objects.equals(lastName, account.lastName) &&
+                Objects.equals(type, account.type) &&
+                Objects.equals(product, account.product);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(accountNumber, formattedAccountNumber, dealerId, dealearLocation, firstName, lastName, paymentDueDayOfMonth, balance, line, type, product);
+    }
 }
