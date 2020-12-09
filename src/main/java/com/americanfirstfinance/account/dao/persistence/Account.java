@@ -12,21 +12,13 @@ import java.util.Objects;
 @EqualsAndHashCode
 @Entity
 @Table(name = "KWLBASE")
-/*@NamedStoredProcedureQuery(name = "postDownPayment", procedureName = "SP_CARDDP", parameters = {
-        @StoredProcedureParameter(name = "CLIENT", type = String.class),
-        @StoredProcedureParameter(name = "CUST", type = String.class),
-        @StoredProcedureParameter(name = "ACCT", type = String.class),
-        @StoredProcedureParameter(name = "SEQ", type = String.class),
-        @StoredProcedureParameter(name = "AMT", type = Double.class),
-        @StoredProcedureParameter(name = "TC", type = String.class),
-        @StoredProcedureParameter(name = "DECISION", type = String.class, mode = ParameterMode.OUT)})*/
 public class Account {
     @EmbeddedId
     private AccountNumber accountNumber;
     @Column(name="MFMTACCT")
     private String formattedAccountNumber;  //KWLBASE.MCUST + KWLBASE.MACCT, formatted is KWLBASE.MFMTACCT
     @Column(name="MDLR")
-    private String dealerId;  //I think dealer ID is MDLR -- which table has dealer info?
+    private String dealerId;
     @Column(name="MDLRL")
     private String dealearLocation;
     @Column(name="MFNAME")
