@@ -2,7 +2,6 @@ package com.americanfirstfinance.account.dao;
 
 import com.americanfirstfinance.account.dao.persistence.Account;
 import com.americanfirstfinance.account.dao.persistence.AccountNumber;
-
 import com.americanfirstfinance.account.dao.persistence.Transaction;
 import com.americanfirstfinance.account.form.DownPayment;
 import org.slf4j.Logger;
@@ -10,12 +9,12 @@ import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.ParameterMode;
+import javax.persistence.Query;
+import javax.persistence.StoredProcedureQuery;
 import javax.transaction.Transactional;
-
-import java.text.NumberFormat;
 import java.util.List;
-import java.util.UUID;
 
 @ApplicationScoped
 public class AccountDAOImpl implements AccountDAO {
@@ -47,28 +46,8 @@ public class AccountDAOImpl implements AccountDAO {
 
     @Override
     public Transaction postCustomerPayment(DownPayment payment) {
-        //Account account = getAccount(payment.getAccountNumber());
-
-        //String confirmationNumber = UUID.randomUUID().toString();
-
-        /*Transaction transaction = Transaction.builder()
-                .confirmationNumber(confirmationNumber)
-                .account(account)
-                .datePosted(ZonedDateTime.now())
-                .transactionType(TransactionType.DOWN_PAYMENT)
-                .description("Down payment")
-                .currencyCode(payment.getCurrencyCode())
-                .amount(payment.getAmount())
-                .build();
-
-        account.setBalance(account.getBalance() - payment.getAmount());
-
-        persistTransaction(account, transaction);*/
-
-        //EntityTransaction txn = entityManager.getTransaction();
         String decision = callCardDP("108", payment.getCustomerNumber(), payment.getAccountId(), payment.getCardNumber(), payment.getAmount(), "26");
         LOGGER.info("postCustomerPayment() called successfully -- decision: {}", decision);
-        //txn.commit();
 
         return new Transaction(decision, payment.getAmount());
     }
@@ -81,9 +60,10 @@ public class AccountDAOImpl implements AccountDAO {
                 .registerStoredProcedureParameter("ACCT", String.class, ParameterMode.IN).setParameter("ACCT", accountId)
                 .registerStoredProcedureParameter("SEQ", String.class, ParameterMode.IN).setParameter("SEQ", cardNumber)
                 .registerStoredProcedureParameter("AMT", String.class, ParameterMode.IN).setParameter("AMT", Double.toString(amount))
+                .registerStoredProcedureParameter("TC", String.class, ParameterMode.IN).setParameter("TC", tc)
                 .registerStoredProcedureParameter("DECISION", String.class, ParameterMode.OUT)
                 .execute();
-        String decision = (String) spCardDP.getParameterValue("DECISION");
+        String decision = (String) spCardDP.getOutputParameterValue("DECISION");
 
         return decision;
     }

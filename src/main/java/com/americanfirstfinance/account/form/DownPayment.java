@@ -23,7 +23,7 @@ public class DownPayment {
     @Pattern(regexp = "[0-9]+")
     private String cardNumber = "";
     @NotNull
-    @Pattern(regexp = "[0-9]{1,8}+(.[0-9]{2})?")
+    //@Pattern(regexp = "[0-9]{1,8}+(.[0-9]{2})?")
     @DecimalMax(value = "99999999.99")
     private double amount = 0.0;
 }

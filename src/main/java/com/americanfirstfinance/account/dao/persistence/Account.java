@@ -2,8 +2,10 @@ package com.americanfirstfinance.account.dao.persistence;
 
 import lombok.*;
 
-import javax.persistence.*;
-import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -36,27 +38,4 @@ public class Account {
     private String type;
     @Column(name="MPROD")
     private String product;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Account)) return false;
-        Account account = (Account) o;
-        return paymentDueDayOfMonth == account.paymentDueDayOfMonth &&
-                Double.compare(account.balance, balance) == 0 &&
-                Double.compare(account.line, line) == 0 &&
-                Objects.equals(accountNumber, account.accountNumber) &&
-                Objects.equals(formattedAccountNumber, account.formattedAccountNumber) &&
-                Objects.equals(dealerId, account.dealerId) &&
-                Objects.equals(dealearLocation, account.dealearLocation) &&
-                Objects.equals(firstName, account.firstName) &&
-                Objects.equals(lastName, account.lastName) &&
-                Objects.equals(type, account.type) &&
-                Objects.equals(product, account.product);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(accountNumber, formattedAccountNumber, dealerId, dealearLocation, firstName, lastName, paymentDueDayOfMonth, balance, line, type, product);
-    }
 }
