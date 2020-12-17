@@ -10,12 +10,11 @@ import static org.hamcrest.CoreMatchers.is;
 public class AccountListControllerTest {
 
     @Test
-    public void testHelloEndpoint() {
+    public void testAccountListEndpoint() {
         given()
-          .when().get("/poc/accounts")
+          .when().get("/poc/accounts/ILXX")
           .then()
-             .statusCode(200)
-             .body(is("hello"));
+             .statusCode(200);
     }
 
 }

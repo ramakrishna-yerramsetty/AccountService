@@ -21,7 +21,6 @@ dependencies {
     implementation 'io.quarkus:quarkus-jdbc-db2:1.10.2.Final'
     implementation 'io.quarkus:quarkus-smallrye-openapi'
     implementation 'io.quarkus:quarkus-hibernate-validator'
-    implementation 'org.joda:joda-money:1.0.1'
     implementation 'org.projectlombok:lombok:1.18.16'
 
     testImplementation 'io.quarkus:quarkus-junit5'
